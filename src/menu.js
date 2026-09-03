@@ -12,8 +12,8 @@ import BaksoKuah from "./assets/images/BaksoKuah.JPEG";
 import PangsitGoreng from "./assets/images/PangsitGoreng.JPEG";
 import CirengGoreng from "./assets/images/CirengGoreng.jpeg";
 import KentangGoreng from "./assets/images/KentangGoreng.jpeg";
-import RotiBakar from "./assets/images/RotiBakar.jpeg";
-import PisanGoreng from "./assets/images/PisangGoreng.jpeg";
+import RotiBakar from "./assets/images/RotiBakar.JPEG";
+import PisanGoreng from "./assets/images/PisangGoreng.JPEG";
 
 const menu = [
     {
