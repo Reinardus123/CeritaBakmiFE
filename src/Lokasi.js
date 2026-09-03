@@ -1,5 +1,5 @@
 import Aniva from "./assets/images/Aniva.jpeg"
-import GL from "./assets/images/BakmiAja.jpeg"
+import GL from "./assets/images/GreenLake.jpeg"
 
 const lokasi = [
     {

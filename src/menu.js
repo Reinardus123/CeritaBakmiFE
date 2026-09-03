@@ -18,8 +18,8 @@ import PisanGoreng from "./assets/images/PisangGoreng.JPEG";
 const menu = [
     {
         id: 1,
-        title: "Bakmi ayam kecil",
-        description: "Bakmi kecil dengan topping daging ayam cincang.",
+        title: "Bakmi Kecil Ayam Kecap",
+        description: "Bakmi kecil dengan topping daging ayam kecap.",
         price: 26000,
         image: BakmiAja,
         category: "Bakmi"
@@ -27,7 +27,7 @@ const menu = [
 
     {
         id:2,
-        title: "Bakmi ayam kampung kecil",
+        title: "Bakmi Kecil Ayam Kampung",
         description: "Bakmi kecil dengan topping ayam kampung.",
         price: 36000,
         image: BakmiAyamKampung,
@@ -36,7 +36,7 @@ const menu = [
 
     {
         id: 3,
-        title: "Bakmi ayam lebar",
+        title: "Bakmi Lebar Ayam Kecap",
         description: "Bakmi lebar dengan topping ayam cincang.",
         price: 26000,
         image: BakmiAyamLebar,
@@ -45,7 +45,7 @@ const menu = [
 
     {
         id: 4,
-        title: "Bakmi ayam kampung lebar",
+        title: "Bakmi Lebar Ayam Kampung",
         description: "Bakmi lebar dengan topping ayam kampung.",
         price: 36000,
         image: BakmiLebarAyamKampung,
@@ -54,7 +54,7 @@ const menu = [
 
     {
         id: 5,
-        title: "Kwetiaw ayam",
+        title: "Kwetiaw Ayam Kecap",
         description: "Kwetiaw dengan topping ayam cincang.",
         price: 26000,
         image: KwetiawAyam,
@@ -63,7 +63,7 @@ const menu = [
 
     {
         id:6,
-        title: "Kwetiaw ayam kampung",
+        title: "Kwetiaw Ayam Kampung",
         description: "Kwetiaw dengan topping ayam kampung.",
         price: 36000,
         image: Kwetiaw,
@@ -72,7 +72,7 @@ const menu = [
 
     {
         id: 7,
-        title: "Bihun ayam",
+        title: "Bihun Ayam Kecap",
         description: "Bihun dengan topping ayam cincang.",
         price: 26000,
         image: BihunAyam,
@@ -81,7 +81,7 @@ const menu = [
 
     {
         id: 8,
-        title: "Bihun ayam kampung",
+        title: "Bihun Ayam Kampung",
         description: "Bihun dengan topping ayam kampung.",
         price: 36000,
         image: BihunAyamKampung,
