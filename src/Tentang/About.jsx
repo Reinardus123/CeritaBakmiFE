@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import Tentang from "../assets/images/Tentang.JPEG";
-import tokped from "../assets/images/tokped.png";
-import shopee from "../assets/images/Shoppee.png";
+import online from "../online.js";
+import OnlineCard from "./OnlineCard";
+
 
 
 function About(){
@@ -41,7 +42,7 @@ function About(){
 
              <div className="grid grid-cols-1 md:grid-cols-2 overflow-hidden bg-[#EC5B38] rounded-xl mt-4">
                
-                    <div className="h-[400px] md:h-[550px]">
+                    <div className="h-[400px] md:h-[600px]">
                         <img src={Tentang} alt="tentang" className="h-full w-full object-cover" />
                     </div>
 
@@ -68,12 +69,27 @@ function About(){
                             setiap topping kami pilih dengan teliti.
                         </p>
 
-                        <div className="mt-8 border-t border-white/40 pt-8">
-                            
+                        <div className="mt-8 border-t border-white/40 pt-8"></div>
 
+                        <h1 className="hero text-3xl font-bold text-white md:text-4xl">
+                            kami Hadir Online
+                        </h1>
 
-                        </div>
+                        <p className="text-white/90 mb-2">
+                            Pesan dengan mudah melalui platform pilihanmu.
+                        </p>
+
+                         <div className="grid grid-cols-3">
+                        {online.map((on) => (
+                            <OnlineCard
+                                key={on.id}
+                                {...on}
+                            />
+                        ))}
                     </div>
+                    </div>
+
+                   
 
              </div>
             
