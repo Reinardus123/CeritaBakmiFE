@@ -1,12 +1,16 @@
 import { href } from "react-router-dom";
 import LogoCB from "../assets/images/LogoCB.png";
-import { useState } from "react";
+import { use, useState } from "react";
+import Login from "../Login/login";
 
 
 
 function Navbar(){
 
     const[isOpen, setIsOpen] = useState(false);
+    const [isLoginOpen, setIsLoginOpen] = useState(false);
+
+    const token = localStorage.getItem("token");
 
     const menuItems =[
         {name: "Home", href: "#home"},
@@ -22,6 +26,8 @@ const handleMenuClick = () => {
 
 
     return (
+
+        <>
      <nav className="absolute top-0 left-0 z-30 mx-auto flex h-24 w-full items-center justify-between px-6 lg:px-8">
         
       <div className="flex items-center md:flex">
@@ -45,7 +51,16 @@ const handleMenuClick = () => {
         ))}
       </div>
 
-      <button 
+        <div className="flex items-center gap-3">
+            <button
+                type="button"
+                onClick={() => setIsLoginOpen(true)}
+                className="rounded-full bg-[#2b1a12] px-5 py-2 font-semibold text-white transition hover:bg-red-600"
+            >
+                Login
+            </button>
+
+             <button 
         type="button"
         onClick={() => setIsOpen(!isOpen)} 
         className="flex h-10 w-10 items-center justify-center rounded-full border border-[#2b1a12]/10 bg-[#fffaf4] text-black transition hover:text-red md:hidden"
@@ -73,9 +88,19 @@ const handleMenuClick = () => {
 
            </div>
         )}
+        </div>
+     
 
 
      </nav>
+
+     <Login
+        isOpen={isLoginOpen}
+        onClose = {() => setIsLoginOpen(false)}     
+     />
+
+    </>
+     
     );
     
 }
