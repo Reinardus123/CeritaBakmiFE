@@ -1,16 +1,15 @@
-import { href } from "react-router-dom";
 import LogoCB from "../assets/images/LogoCB.png";
-import { use, useState } from "react";
+import {useState } from "react";
 import Login from "../Login/login";
-
+import { useAuth } from "./Context";
+import { User } from "lucide-react";
 
 
 function Navbar(){
 
     const[isOpen, setIsOpen] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
-
-    const token = localStorage.getItem("token");
+    const {isLoggedIn, logout} = useAuth();
 
     const menuItems =[
         {name: "Home", href: "#home"},
@@ -50,15 +49,26 @@ const handleMenuClick = () => {
             </a>
         ))}
       </div>
+      
+     
 
         <div className="flex items-center gap-3">
-            <button
+            {isLoggedIn ? (
+
+                <div className="border rounded-full p-2 cursor-pointer ">
+                     <User/>
+                </div>
+            ) : (
+       
+                 <button
                 type="button"
                 onClick={() => setIsLoginOpen(true)}
                 className="rounded-full bg-[#2b1a12] px-5 py-2 font-semibold text-white transition hover:bg-red-600"
             >
                 Login
             </button>
+            )}
+           
 
              <button 
         type="button"
@@ -89,15 +99,17 @@ const handleMenuClick = () => {
            </div>
         )}
         </div>
-     
-
 
      </nav>
 
-     <Login
+     
+
+       <Login
         isOpen={isLoginOpen}
         onClose = {() => setIsLoginOpen(false)}     
      />
+
+    
 
     </>
      

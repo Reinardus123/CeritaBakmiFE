@@ -3,6 +3,7 @@ import BakmiCeritaBakmi from '../assets/images/BakmiCeritaBakmi.JPEG';
 import { User, EyeClosed, Eye } from 'lucide-react';
 import api from '../api/api';
 import Swal from 'sweetalert2';
+import { useAuth } from '../Navbar/Context';
 
 
 function login({isOpen, onClose}){
@@ -15,6 +16,8 @@ function login({isOpen, onClose}){
         return null;
     }
 
+    const {login} = useAuth();
+
     async function handleLogin(e){
         e.preventDefault();
 
@@ -25,18 +28,15 @@ function login({isOpen, onClose}){
                     password
                 }
             );
+
+            login(response.data.token);
             Swal.fire({
                 icon: "success",
                 title: "Login berhasil",
                 text: "Selamat datang kembali",
                 confirmButtonColor :"#FFCB56"
-            })
-
-            localStorage.setItem(
-                "token",
-                response.data.token
-            );
-
+            });
+            
             onClose();
 
         } catch(error){
@@ -180,7 +180,7 @@ function login({isOpen, onClose}){
 
                                      <button
                                             type="submit"
-                                            className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white transition hover:bg-red-700 active:scale-[098]"
+                                            className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white transition hover:bg-red-700"
                                         >
                                             Masuk
                                         </button>
