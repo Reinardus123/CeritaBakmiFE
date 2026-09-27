@@ -3,13 +3,16 @@ import {useState } from "react";
 import Login from "../Login/login";
 import { useAuth } from "./Context";
 import { User } from "lucide-react";
+import { useRef, useEffect } from "react";
 
 
 function Navbar(){
 
-    const[isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const {isLoggedIn, logout} = useAuth();
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const [showMenu, setShowMenu] = useState(false);
 
     const menuItems =[
         {name: "Home", href: "#home"},
@@ -18,6 +21,19 @@ function Navbar(){
         {name: "Location", href: "#Location"},
         {name: "Contact", href: "#contact"}
 ];
+
+    const menuRef = useRef(null);
+
+    useEffect(() => {
+        function handleClickOutside(event){
+            if(menuRef.current && !menuRef.current.contains(event.target)){
+                setIsUserMenuOpen(false);
+            }
+        }
+        document.addEventListener("mousedown",handleClickOutside);
+
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    },[]);
 
 const handleMenuClick = () => {
     setIsOpen(false);
@@ -55,8 +71,39 @@ const handleMenuClick = () => {
         <div className="flex items-center gap-3">
             {isLoggedIn ? (
 
-                <div className="border rounded-full p-2 cursor-pointer ">
-                     <User/>
+                <div className="relative" ref={menuRef}>
+                     <button
+                        type="button"
+                        onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                        className="border rounded-full p-2 cursor-pointer"
+                    >
+                        <User
+                            className="cursor-pointer"
+                           
+                        />
+                    </button>
+
+                    {isUserMenuOpen && (
+                        <div className="absolute right-0 top-12 w-48 rounded-xl bg-white shadow-lg border border-gray-200 p-2">
+
+                            <button
+                                type="button"
+                                className="w-full rounded-lg px-4 py-3 text-left hover:bg-red-50"
+
+                            >
+                             Profil
+                            </button>
+                            
+                            <button
+                                type="button"
+                                onClick={logout}
+                                className="w-full rounded-lg px-4 py-3 text-left text-red-600 hover:bg-red-50"
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    )}
+
                 </div>
             ) : (
        
@@ -108,8 +155,6 @@ const handleMenuClick = () => {
         isOpen={isLoginOpen}
         onClose = {() => setIsLoginOpen(false)}     
      />
-
-    
 
     </>
      
