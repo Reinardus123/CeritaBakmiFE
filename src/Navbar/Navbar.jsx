@@ -4,6 +4,8 @@ import Login from "../Login/login";
 import { useAuth } from "./Context";
 import { User } from "lucide-react";
 import { useRef, useEffect } from "react";
+import { ShoppingBasket } from "lucide-react";
+
 
 
 function Navbar(){
@@ -12,7 +14,6 @@ function Navbar(){
     const [isLoginOpen, setIsLoginOpen] = useState(false);
     const {isLoggedIn, logout} = useAuth();
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-    const [showMenu, setShowMenu] = useState(false);
 
     const menuItems =[
         {name: "Home", href: "#home"},
@@ -81,7 +82,10 @@ const handleMenuClick = () => {
                             className="cursor-pointer"
                            
                         />
+
+                       
                     </button>
+
 
                     {isUserMenuOpen && (
                         <div className="absolute right-0 top-12 w-48 rounded-xl bg-white shadow-lg border border-gray-200 p-2">
@@ -115,6 +119,7 @@ const handleMenuClick = () => {
                 Login
             </button>
             )}
+
            
 
              <button 
