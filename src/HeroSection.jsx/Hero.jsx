@@ -47,14 +47,14 @@ function Hero(){
                     href="#menu"
                     className="rounded-lg bg-[#EC5B38] px-6 py-3 text-centern font-bold transition  hover:bg-[#FFCB56] "
                 >
-                    Order Now
+                    Pesan Sekarang
                 </a>
 
                 <a 
-                    href="#menu"
-                    className="rounded-lg border border-[#EC5B38] bg-transparent px-6 py-3 text-center font-bold transition hover:bg-[#EC5B38]"
+                    
+                    className="rounded-lg border border-[#EC5B38] bg-transparent px-6 py-3 text-center font-bold transition hover:bg-[#EC5B38] cursor-pointer"
                 >   
-                    Explore Menu
+                    Pesanan Saya
                 </a>
                 
 
@@ -65,18 +65,18 @@ function Hero(){
                     <img src={Bakmi} alt="bakmi" className="h-8 w-8" />
                     <div >
                         <p className="font-bold">
-                            Freshly Made
+                            Selalu segar
                         </p>
-                        <p>Everyday</p>
+                        <p>Setiap hari</p>
                     </div>
 
                     <div className="flex items-center gap-4">
                         <img src={Quality} alt="quality"  className="h-8 w-8"/>
                         <div>
                             <p className="font-bold">
-                                Quality
+                                Bahan
                             </p>
-                            <p>Ingredients</p>
+                            <p>Berkualitas</p>
                         </div>
                     </div>
                     

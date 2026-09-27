@@ -1,3 +1,6 @@
+import { Plus } from "lucide-react";
+
+
 function MenuCard({image, title, description, price}){
 
 
@@ -11,18 +14,21 @@ function MenuCard({image, title, description, price}){
             />
 
             <div className="p-4">
-                <h3 className="text-lg font-bold">
+                <h3 className="text-md font-bold">
                     {title}
                 </h3>
-
-                <p className="mt-2 text-sm">
-                    {description}
-                </p>
 
                 <div className="mt-4 flex items-center justify-between">
                     <span className="font-bold text-[#B51F18]">
                         Rp. {price.toLocaleString("id-ID")}
                     </span>
+
+                    <button
+                        type="button"
+                        className="border rounded-full p-4 cursor-pointer hover:bg-[#EC5B38] w-12 h-12 flex items-center justify-center"
+                    >
+                        <Plus/>
+                    </button>
                 </div>
             </div>
             
