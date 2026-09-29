@@ -4,7 +4,7 @@ import Bakmi from "../assets/images/Bakmi.png";
 import Quality from "../assets/images/Quality.png";
 import Halal from "../assets/images/LogoHalal.png";
 import { useState } from "react";
-import Cart from "../Cart/cart";
+import Cart from "../Cart/CartItem";
 
 function Hero(){
 
