@@ -3,8 +3,12 @@ import HeroSectionBakmi from "../assets/images/HeroSectionBackmi.jpeg";
 import Bakmi from "../assets/images/Bakmi.png";
 import Quality from "../assets/images/Quality.png";
 import Halal from "../assets/images/LogoHalal.png";
+import { useState } from "react";
+import Cart from "../Cart/cart";
 
 function Hero(){
+
+    const [isCartOpen, setIsCartOpen] = useState(false);
     
     return (
         <section id="home" className="relative min-h-screen overflow-hidden bg-[#f8f1e7]">
@@ -50,12 +54,21 @@ function Hero(){
                     Pesan Sekarang
                 </a>
 
-                <a 
-                    
+                <button
+                    type="button"
+                    onClick={() => setIsCartOpen(true)}
                     className="rounded-lg border border-[#EC5B38] bg-transparent px-6 py-3 text-center font-bold transition hover:bg-[#EC5B38] cursor-pointer"
                 >   
                     Pesanan Saya
-                </a>
+                </button>
+
+                {isCartOpen && (
+                    <Cart
+                        items={[]}
+                        onClose={() => setIsCartOpen(false)}
+                        onDelete={() => {}}
+                    />
+                )}
                 
 
             </div>

@@ -37,7 +37,7 @@ function login({isOpen, onClose}){
                 confirmButtonColor :"#FFCB56"
             });
             
-            onClose();
+            
 
         } catch(error){
             console.log(error);

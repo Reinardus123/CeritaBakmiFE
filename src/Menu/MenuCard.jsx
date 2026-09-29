@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 
 
-function MenuCard({image, title, description, price}){
+function MenuCard({image, title, price, menuId}){
 
 
     return (
@@ -26,6 +26,7 @@ function MenuCard({image, title, description, price}){
                     <button
                         type="button"
                         className="border rounded-full p-4 cursor-pointer hover:bg-[#EC5B38] w-12 h-12 flex items-center justify-center"
+                        
                     >
                         <Plus/>
                     </button>
