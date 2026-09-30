@@ -16,7 +16,11 @@ function MenuList(){
 
             const response = await api.get("/menu/getMenu");
 
-            setMenus(response.data);
+            const sortedMenu = response.data.sort(
+                (a,b) => a.menuId - b.menuId
+            )
+
+            setMenus(sortedMenu);
 
             console.log(response.data);
 
@@ -129,7 +133,7 @@ function MenuList(){
                     <tbody>
                         {searchMenu.map((menu) => (
                             <tr
-                                key={menu.id}
+                                key={menu.menuId}
                                 className="border-b last:border-b-0 hover:bg-gray-50"
                             >
 
