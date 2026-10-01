@@ -1,15 +1,17 @@
 import MenuCard from "./MenuCard.jsx";
-import menuData from "../menu.js";
+import api from "../api/api.js";
 import { useState,useRef, useEffect } from "react";
 
 function Menu(){
-    const[selectedCategories, setSelectedCategories] = useState("Bakmi");
+    const[selectedCategories, setSelectedCategories] = useState("");
+    const [menu, setMenu] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [isVisible, setIsVisible] = useState(false);
     const expRef = useRef(null);
 
-    const categories = [...new Set(menuData.map((menu) => menu.category))];
+
     const filteredCategories = 
-    selectedCategories === "" ? menuData : menuData.filter((menu) => menu.category === selectedCategories);
+    selectedCategories === "" ? menu : menu.filter((item) => item.categoryId === selectedCategories);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -28,7 +30,57 @@ function Menu(){
         }
 
         return () => observer.disconnect();
+        
     }, []);
+
+
+    async function getMenu(){
+
+        try{
+
+            const response = await api.get("/menu/getMenu");
+            setMenu(response.data);
+
+        } catch(error){
+            console.log(error);
+        }
+    }
+
+    async function getCategories(){
+
+        try{
+
+            const response = await api.get("/category/getCat");
+            setCategories(response.data);
+            console.log(response.data);
+
+        } catch(error){
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getMenu();
+        getCategories();
+    },[]);
+
+
+    async function handleCart(menu){
+
+        try{
+
+             await api.post("/cart/create",{
+                menuId : menu.menuId,
+                quantity: 1
+            });
+
+
+        } catch(error){
+            console.log(error);
+        }
+    }
+
+
     
 
     return (
@@ -45,11 +97,11 @@ function Menu(){
                    
                         {categories.map((category) => (
                             <button 
-                                key={category}
+                                key={category.categoryId}
                                 className="rounded-full bg-[#EC5B38] px-5 py-2 text-white cursor-pointer hover:scale-105 transition duration-200 shrink-0"
-                                onClick={() => setSelectedCategories(category)}
+                                onClick={() => setSelectedCategories(category.categoryId)}
                             >
-                                {category}
+                                {category.categoryName}
                             </button>
                         ))}
                     
@@ -60,8 +112,10 @@ function Menu(){
 
                 {filteredCategories.map((menu) => (
                     <MenuCard
-                        key={menu.title}
-                        {...menu}
+                        key={menu.menuId}
+                        menu={menu}
+                        onAddCart={handleCart}
+                        
                     />
                 ))}
             </div>

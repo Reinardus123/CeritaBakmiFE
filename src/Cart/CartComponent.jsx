@@ -2,6 +2,7 @@ import { Trash, Minus, Plus } from "lucide-react";
 
 function CartComponent({item, onDelete}){
 
+    console.log("ITEM DI CART COMPONENT:", item);
     return (
        
         <div className="border-b border-[#2b1a12]/10 py-5">
@@ -10,7 +11,7 @@ function CartComponent({item, onDelete}){
 
                 <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-gray-100">
                     <img 
-                        src={item.imageUrl} 
+                         src={`http://localhost:8080${item.imageUrl}`} 
                         alt={item.menuTitle}
                         className="h-full w-full object-cover" 
                     />
@@ -30,7 +31,7 @@ function CartComponent({item, onDelete}){
 
                         <button
                             type="button"
-                            onClick={() => onDelete(item.cartItemId)}
+                            onClick={() => onDelete(item)}
                             className="text-[#2b1a12]/50 transition hover:text-[#f0543a] md:hidden"
                         >
 
@@ -67,8 +68,8 @@ function CartComponent({item, onDelete}){
 
                     <button
                         type="button"
-                        onClick={() => onDelete(item.cartItemId)}
-                        className="hidden text-[#2b1a12]/50 transition hover:text-[#f0543a] md:block"
+                        onClick={() => onDelete(item)}
+                        className="hidden text-[#2b1a12]/50 transition hover:text-[#f0543a] md:block cursor-pointer"
                     >
                         <Trash size={20}/>
                     </button>

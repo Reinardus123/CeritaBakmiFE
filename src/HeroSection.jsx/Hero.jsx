@@ -4,7 +4,7 @@ import Bakmi from "../assets/images/Bakmi.png";
 import Quality from "../assets/images/Quality.png";
 import Halal from "../assets/images/LogoHalal.png";
 import { useState } from "react";
-import Cart from "../Cart/CartItem";
+import CartItem from "../Cart/CartItem";
 
 function Hero(){
 
@@ -61,15 +61,7 @@ function Hero(){
                 >   
                     Pesanan Saya
                 </button>
-
-                {isCartOpen && (
-                    <Cart
-                        items={[]}
-                        onClose={() => setIsCartOpen(false)}
-                        onDelete={() => {}}
-                    />
-                )}
-                
+            
 
             </div>
 
@@ -108,6 +100,13 @@ function Hero(){
 
 
         </div>
+
+        {isCartOpen && (
+            <CartItem
+                onClose={() => setIsCartOpen(false)}
+                
+            />
+        )}
 
 
 
