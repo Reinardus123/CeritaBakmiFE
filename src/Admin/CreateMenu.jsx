@@ -3,7 +3,7 @@ import { UploadCloud, X } from "lucide-react";
 import api from "../api/api";
 
 
-function CreateMenu({onClose}){
+function CreateMenu({onClose, menu}){
 
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
@@ -13,7 +13,7 @@ function CreateMenu({onClose}){
         MenuTitle: "",
         price: "",
         description: "",
-        categoryid: ""
+        categoryId: ""
 
     });
 
@@ -30,6 +30,19 @@ function CreateMenu({onClose}){
         setPreview(imageUrl);
     }
 
+    function handlePrice(e){
+        const value = e.target.value;
+
+        const number = value.replace(/\D/g,"");
+
+        const formatted = number ? Number(number).toLocaleString("id-ID") : "";
+
+        setForm({
+            ...form,
+            price: formatted
+        });
+    }
+
     function removeImage(){
         setImage(null);
         setPreview(null);
@@ -37,31 +50,35 @@ function CreateMenu({onClose}){
 
     const [categories, setCategories] = useState([]);
 
-    // async function getCategories(){
+    async function getCategories(){
         
-    //     const response = await api.get("/category/createCat");
+        const response = await api.get("/category/getCat");
 
-    //     setCategories(response.data);
-    // }
+        setCategories(response.data);
 
-    // useEffect(() => {
+        console.log(response.data);
+    }
 
-    //     getCategories();
+    useEffect(() => {
 
-    // },[]);
+        getCategories();
+
+    },[]);
     
    async function createProduct(e){
 
         e.preventDefault();
 
-        try{
+        if(!menu){
+
+            try{
             setLoading(true);
 
             const formData = new FormData();
-            formData.append("menuTitle", form.MenuTitle);
+            formData.append("MenuTitle", form.MenuTitle);
             formData.append("price", form.price);
             formData.append("description", form.description);
-            formData.append("categoryid", form.categoryid);
+            formData.append("categoryId", form.categoryId);
         
             if(image){
                 formData.append("image",image);
@@ -77,6 +94,28 @@ function CreateMenu({onClose}){
         } catch(error){
             console.log(error);
         }
+
+        } else{
+
+            try{
+                 const formData = new FormData();
+                formData.append("MenuTitle",form.MenuTitle);
+                formData.append("price", form.price.replace(/\./g, ""));
+                formData.append("description",form.description);
+                formData.append("categoryId",form.categoryId);
+
+            if(image){
+                formData.append("image",image);
+            }
+            const response = await api.put(`/menu/update/${menu.menuId}`,formData);
+            console.log(response.data);
+            onClose();
+            } catch(error){
+                console.log(error);
+            }         
+        }
+
+       
    }
 
    function handleChange(e) {
@@ -89,9 +128,22 @@ function CreateMenu({onClose}){
    function handleCategory(e){
         setForm({
             ...form,
-            categoryid: e.target.value,
+            categoryId: e.target.value,
         });
    }
+
+   useEffect(() => {
+        if(menu){
+            setForm({
+                MenuTitle: menu.MenuTitle,
+                price: menu.price.toLocaleString("id-ID"),
+                description: menu.description,
+                categoryId: menu.categoryId
+            });
+
+            setPreview(`http://localhost:8080${menu.ImageUrl}`);
+        }
+   }, [menu]);
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-md px-4">
@@ -123,7 +175,7 @@ function CreateMenu({onClose}){
                             <input 
                                 type="text"
                                 name="MenuTitle"
-                                value={form.menuTitle}
+                                value={form.MenuTitle}
                                 onChange={handleChange}
                                 placeholder="Masukan nama menu"
                                 required
@@ -160,7 +212,7 @@ function CreateMenu({onClose}){
                                     type="number"
                                     name="price"
                                     value={form.price}
-                                    onChange={handleChange}
+                                    onChange={handlePrice}
                                     placeholder="2.500"
                                     required
                                     className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm outline-none transition focus:bg-red-600" 
@@ -174,8 +226,8 @@ function CreateMenu({onClose}){
                                 </label>
 
                                 <select 
-                                    name="categoryid"
-                                    value={form.categoryid}
+                                    name="categoryId"
+                                    value={form.categoryId}
                                     onChange={handleCategory}
                                     className="w-full border rounded-md border-gray-200 px-3 py-2 outline-none transition focus:bg-red-600"
                                 >
@@ -187,11 +239,11 @@ function CreateMenu({onClose}){
                                         categories.map(category => (
                                             
                                             <option 
-                                                value={category.categoryid}
-                                                key={category.categoryid}
+                                                value={category.categoryId}
+                                                key={category.categoryId}
                                             >
                                                 
-                                                {category.categoryname};
+                                                {category.categoryName}
                                             </option>
                                         ))
                                     }
@@ -210,7 +262,7 @@ function CreateMenu({onClose}){
 
                           <div className="flex gap-3">
                                 
-                            <label className="flex h-[90px] flex-1 cursor-pointer flex-col items-cenrter justify-center rounded-md border border-dashed border-gray-300 transition hover:bg-gray-50">
+                            <label className="flex h-[90px] flex-1 cursor-pointer flex-col items-center justify-center rounded-md border border-dashed border-gray-300 transition hover:bg-gray-50">
                                 
                                 <UploadCloud
                                     size={25}

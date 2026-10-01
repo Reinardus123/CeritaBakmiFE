@@ -2,6 +2,7 @@ import { Plus, Search, Pencil } from "lucide-react";
 import { useState, useEffect } from "react";
 import api from "../api/api";
 import CreateMenu from "./CreateMenu";
+import CreateCategory from "./CreateCategory";
 
 
 function MenuList(){
@@ -9,6 +10,8 @@ function MenuList(){
     const [menus, setMenus] = useState([]);
     const [search, setSearch] = useState("");
     const [isCreateOpen, setIsCreateOpen] = useState(false);
+    const [isCatOpen, setIsCatOpen] = useState(false);
+    const [selectedMenu, setSelectedMenu] = useState(null);
 
 
     async function getMenu(){
@@ -29,6 +32,11 @@ function MenuList(){
         }
     }
 
+    function handleEdit(menu){
+        setSelectedMenu(menu);
+        setIsCreateOpen(true);
+    }
+
     async function handleToogle(menuId){
         try{
 
@@ -47,6 +55,9 @@ function MenuList(){
 
     },[]);
 
+
+    
+
     const searchMenu = menus.filter((menu) => menu.MenuTitle.toLowerCase().includes(search.toLowerCase()));
 
 
@@ -61,7 +72,7 @@ function MenuList(){
                         Daftar Menu
                     </h2>
 
-                    <p className="text-xs text-gray-500">
+                    <p className="text-sm text-gray-500">
                         Kelola menu yang tersedia
                     </p>
                 </div>
@@ -71,7 +82,7 @@ function MenuList(){
                     <div className="relative">
                         <Search
                             size={15}
-                            className="absolute left-3 top-1/2 -transalte-y-1/2 text-gray-400"
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
                         />
 
                         <input 
@@ -79,17 +90,26 @@ function MenuList(){
                             placeholder="Cari Menu..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-36 rounded-md border border-gray-200 py-2 pl-9 pr-3 text-xs outline-none focus:border-red-600" 
+                            className="w-36 rounded-md border border-gray-200 py-2 pl-9 pr-3 text-sm outline-none focus:border-red-600" 
                         />
                     </div>
 
                     <button 
                         type="button"
                         onClick={() => setIsCreateOpen(true)}
-                        className="flex items-center gap-1 rounded-md bg-red-600 px-3 py-2 text-xs font-medium text-white hover:bg-red-700"
+                        className="flex items-center gap-1 rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700"
                     >
                         <Plus size={15}/>
                         Tambah Menu
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={() => setIsCatOpen(true)}
+                        className="flex items-center gap-1 rounded-md bg-red-600 px-3 py-2 text-sm font-medium text-white hover:bg-red-700 cursor-pointer"
+                    >
+                        <Plus size={15}/>
+                        Tambah Kategori
                     </button>
 
                 </div>
@@ -98,11 +118,11 @@ function MenuList(){
 
             <div className="overflow-x-auto">
 
-                <table className="w-full text-left text-xs">
+                <table className="w-full text-left text-sm">
 
                     <thead>
 
-                        <tr className="border-y bg-gray-50 text-gray-500">
+                        <tr className="border-y bg-gray-50 text-black-600">
 
                             <th className="px-3 py-2 font-medium">
                                 Foto
@@ -124,7 +144,7 @@ function MenuList(){
                                 Status
                             </th>
 
-                             <th className="px-3 py-2 font-medium">
+                             <th className="py-3 py-2 font-medium">
                                 Aksi
                             </th>
                         </tr>
@@ -139,7 +159,7 @@ function MenuList(){
 
                                 <td className="px-3 py-2">
                                     <img 
-                                        src={menu.imageUrl}
+                                        src={`http://localhost:8080${menu.ImageUrl}`}
                                         alt={menu.menuTitle}
                                         className="h-8 w-8 rounded-md object-cover" 
                                     />
@@ -176,7 +196,8 @@ function MenuList(){
                                         
                                         <button 
                                             type="button"
-                                            className="text-gray-500 hover:text-gray-800"
+                                            onClick={() => handleEdit(menu)}
+                                            className="text-gray-500 hover:text-gray-800 cursor-pointer"
                                         >
                                                 <Pencil size={15}/>
                                         </button>
@@ -184,7 +205,7 @@ function MenuList(){
                                         <button
                                             type="button"
                                             onClick={() => handleToogle(menu.menuId)}
-                                            className={`relative h-4 w-7 rounded-full transition ${menu.active ? "bg-red-600" : "bg-gray-300"}`}
+                                            className={`relative h-4 w-7 rounded-full transition cursor-pointer ${menu.active ? "bg-red-600" : "bg-gray-300"}`}
                                         >
 
                                             <span className={`absolute top-0.5 h-3 w-3 rounded-full bg-white transition ${menu.active ? "left-3" : "left-0.5"}`}/>
@@ -204,12 +225,23 @@ function MenuList(){
 
             {isCreateOpen && (
                 <CreateMenu
+                    menu={selectedMenu}
                     onClose={() => {
                         setIsCreateOpen(false);
                         getMenu();
                     }}
                 />
             )}
+
+            {isCatOpen && (
+                    <CreateCategory
+                        onClose={() => {
+                            setIsCatOpen(false);
+                            getMenu();
+                        }}
+                    />
+                )
+            }
 
        </div>
     );
