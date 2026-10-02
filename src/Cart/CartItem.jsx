@@ -201,7 +201,7 @@ function CartItem({onClose}){
                             <button
                                 type="button"
                                 onClick={onClose}
-                                className="w-full rounded-xl border border-[#f0543a] px-5 py-3 font-semibold text-[#f0543a] transition hover:bg-[#f0543a]/10"
+                                className="w-full rounded-xl border border-[#f0543a] px-5 py-3 font-semibold text-[#f0543a] transition hover:bg-[#f0543a]/10 cursor-pointer"
                             >
                                 Kembali ke menu
                             </button>
@@ -209,7 +209,7 @@ function CartItem({onClose}){
                             <button 
                                 type="button"
                                 onClick={() => hanldeCheckout()}
-                                className="w-full rounded-xl bg-[#f0543a] px-5 py-3 font-semibold text-white transition hover:bg-[#d9442f]"
+                                className="w-full rounded-xl bg-[#f0543a] px-5 py-3 font-semibold text-white transition hover:bg-[#d9442f] cursor-pointer"
                             >
                                 Checkout
                             </button>
