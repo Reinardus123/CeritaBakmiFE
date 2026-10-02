@@ -6,24 +6,58 @@ import { useState, useEffect } from "react";
 function CartItem({onClose}){
 
     const [cart, setCart] = useState([]);
+    const [branch, setBranch] = useState([]);
+    const [form, setForm] = useState({
+        branchId: "",
+        deliveryAddress: ""
+    });
+    
 
     async function getCart(){
         
         try{
-            const response = await api.get("cart/getCart");
+            const response = await api.get("/cart/getCart");
             setCart(response.data);
-            console.log(response.data);
         } catch(error){
             console.log(error);
         }
         
     }
 
+    async function handleChange(e){
+        
+    }
+
+    async function hanldeCheckout(){
+
+        try{
+            const response = await api.post("/checkout/item",{
+                
+            });
+
+            console.log(response.data);
+
+
+        } catch(error){
+            console.log(error);
+        }
+    }
+
+    async function getBranch(){
+        
+        try{
+
+            const response = await api.get("/branch/getBranch");
+            setBranch(response.data);
+
+        } catch(error){
+            console.log(error);
+        }
+    }
+
     async function handleDelete(item){
 
         try{
-            console.log("ITEM YANG DIHAPUS:", item);
-        console.log("CART ITEM ID:", item.cartItemId);
              await api.delete(`/cart/${item.cartItemId}`);
 
             setCart((prevCart) => prevCart.filter((cartItem) => cartItem.cartItemId !== item.cartItemId));
@@ -33,8 +67,27 @@ function CartItem({onClose}){
         }
     }
 
+    async function handleUpdateQuantity(cartItemId, quantity){
+
+        try{
+
+            const response = await api.put(`/cart/${cartItemId}/updateQuantity`,{
+                quantity: quantity
+            });
+
+            const updatedItem = response.data;
+            console.log(response.data);
+
+            setCart((prevCart) => prevCart.map((item) => item.cartItemId === updatedItem.cartItemId ? updatedItem : item));
+
+        } catch(error){
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         getCart();
+        getBranch();
     },[]);
     const subtotal = cart.reduce((total, item) => total + item.subtotal,0);
 
@@ -52,7 +105,7 @@ function CartItem({onClose}){
                     <button
                         type="button"
                         onClick={onClose}
-                        className="flex h-9 w-9 justify-center rounded-full transition hover:bg-[#2b1a12]/10"
+                        className="flex h-9 w-9 justify-center transition cursor-pointer"
                     >
                         <X size={22}/>
                     </button>
@@ -73,6 +126,7 @@ function CartItem({onClose}){
                                 key={item.cartItemId}
                                 item={item}
                                 onDelete={handleDelete}
+                                updateQuantity={handleUpdateQuantity}
                             />
 
                         ))
@@ -81,6 +135,55 @@ function CartItem({onClose}){
 
                 {cart.length > 0 && (
                     <div className="shrink-0 border-t border-[#2b1a12] px-5 py-5 md:px-7">
+
+                            <div className="mb-5">
+                                 <span className="text-lg font-semibold ">
+                                    Pilih Cabang
+                                 </span>
+                            </div>
+                            
+
+
+                        <div className="mb-5 flex-col gap-3 sm:flex-row">    
+                            <select 
+                                name="branchId"
+                                onChange={handleChange} 
+                                className="w-full rounded-xl border border-[#f0543a] px-5 py-3 font-semibold text-[#f0543a] transition hover:bg-[#f0543a]/10"
+                            >
+                                <option value="">
+                                    Pilih Cabang
+                                </option>
+
+                                {
+                                    branch.map(cabang => (
+                                        <option 
+                                            value={cabang.branchId}
+                                            key={cabang.branchId}
+                                        >
+                                            {cabang.branchName}
+                                        </option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+
+                        <div className="mb-5">
+                                 <span className="text-lg font-semibold ">
+                                    Alamat Pengantaran
+                                 </span>
+                            </div>
+
+                        <div className="mb-5 flex-col gap-3 sm:flex-row">
+                            <input 
+                                type="text"
+                                name="deliveryAddress"
+                                value={form.deliveryAddress}
+                                placeholder="Masukan Alamat Pengantaran"
+                                required
+                                className="w-full rounded-xl border border-[#f0543a] px-5 py-3 font-semibold text-[#f0543a] transition hover:bg-[#f0543a]/10" 
+                            />
+                        </div>
+
                         <div className="mb-5 flex items-center justify-between">
                             
                             <span className="text-lg font-semibold text-[#2b1a12]">
@@ -91,6 +194,8 @@ function CartItem({onClose}){
                                 Rp. {subtotal.toLocaleString("id-ID")}
                             </span>
                         </div>
+
+                        
 
                         <div className="flex flex-col gap-3 sm:flex-row">
                             <button
@@ -103,6 +208,7 @@ function CartItem({onClose}){
 
                             <button 
                                 type="button"
+                                onClick={() => hanldeCheckout()}
                                 className="w-full rounded-xl bg-[#f0543a] px-5 py-3 font-semibold text-white transition hover:bg-[#d9442f]"
                             >
                                 Checkout
