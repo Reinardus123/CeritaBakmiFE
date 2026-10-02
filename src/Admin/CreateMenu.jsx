@@ -98,7 +98,7 @@ function CreateMenu({onClose, menu}){
         } else{
 
             try{
-                 const formData = new FormData();
+                const formData = new FormData();
                 formData.append("MenuTitle",form.MenuTitle);
                 formData.append("price", form.price.replace(/\./g, ""));
                 formData.append("description",form.description);

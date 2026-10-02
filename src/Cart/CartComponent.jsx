@@ -1,8 +1,8 @@
 import { Trash, Minus, Plus } from "lucide-react";
 
-function CartComponent({item, onDelete}){
+function CartComponent({item, onDelete, updateQuantity}){
 
-    console.log("ITEM DI CART COMPONENT:", item);
+    
     return (
        
         <div className="border-b border-[#2b1a12]/10 py-5">
@@ -11,7 +11,7 @@ function CartComponent({item, onDelete}){
 
                 <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-gray-100">
                     <img 
-                         src={`http://localhost:8080${item.imageUrl}`} 
+                        src={`http://localhost:8080${item.imageUrl}`} 
                         alt={item.menuTitle}
                         className="h-full w-full object-cover" 
                     />
@@ -45,7 +45,8 @@ function CartComponent({item, onDelete}){
                         <div className="flex items-center gap-3">
                             <button
                                 type="button"
-                                className="flex h-8 w-8 items-center justify-center rounded-full border border-[#2b1a12]/20 transition hover:bg-[#f0543a] hover:text-white"
+                                onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
+                                className="flex h-8 w-8 items-center justify-center rounded-full border border-[#2b1a12]/20 transition hover:bg-[#f0543a] hover:text-white cursor-pointer"
                             >
                                 <Minus size={15}/>
                             </button>
@@ -56,7 +57,8 @@ function CartComponent({item, onDelete}){
 
                             <button
                                 type="button"
-                                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f0543a] text-white transition:hover:bg-[#d9442f] "
+                                 onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
+                                className="flex h-8 w-8 items-center justify-center rounded-full bg-[#f0543a] text-white transition:hover:bg-[#d9442f] cursor-pointer"
                             >
                                 <Plus size={15}/>
                             </button>
