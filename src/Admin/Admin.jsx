@@ -1,5 +1,6 @@
 import CreateMenu from "./CreateMenu"
 import MenuList from "./MenuList"
+import Transaction from "./Transaction";
 
 function Admin(){
     return (
@@ -21,6 +22,8 @@ function Admin(){
                         Kelola Pesanan dan menu Cerita Bakmi
                     </p>
                 </div>
+
+                <Transaction/>
 
                 <MenuList/>
                 
