@@ -7,11 +7,11 @@ function CartConfirmation({onClose, onSubmit}){
 
                 <div className="flex items-center justify-center">
                     <span className="text-lg font-semibold text-[#2b1a12]"> 
-                        Apakah pesanan anda sudah sesuai ? 
+                        Apakah pesanan anda sudah sesuai ?
                     </span>
                 </div>
 
-                <div className="flex flex-col gap-3 sm:flex-row">
+                <div className="flex flex-col gap-3 sm:flex-row mt-5">
                     <button
                         type="button"
                         onClick={onClose}
@@ -23,7 +23,7 @@ function CartConfirmation({onClose, onSubmit}){
                      <button
                         type="button"
                         onClick={onSubmit}
-                        className="w-full rounded-xl border border-[#f0543a] px-5 py-3 font-semibold text-[#f0543a] transition hover:bg-[#f0543a]/10 cursor-pointer"
+                        className="w-full rounded-xl bg-[#f0543a] px-5 py-3 font-semibold text-white transition hover:bg-[#d9442f] cursor-pointer"
                     >
                         Proses 
                     </button>

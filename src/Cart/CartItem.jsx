@@ -2,10 +2,13 @@ import { X } from "lucide-react";
 import CartComponent from "./CartComponent";
 import api from "../api/api";
 import { useState, useEffect } from "react";
+import CartConfirmation from "./CartConfirm";
+import Swal from "sweetalert2";
 
 function CartItem({onClose}){
 
     const [cart, setCart] = useState([]);
+    const [cartConfirmation, setCartConfirmation] = useState(false);
     const [branch, setBranch] = useState([]);
     const [form, setForm] = useState({
         branchId: "",
@@ -24,18 +27,61 @@ function CartItem({onClose}){
         
     }
 
-    async function handleChange(e){
+     function handleChange(e){
+
+        setForm({
+            ...form,
+            [e.target.name] : e.target.value,
+        });
         
     }
+
+    function handleBranch(e){
+        setForm({
+            ...form,
+            branchId: Number(e.target.value)
+        });
+    }
+
+    function handleCheckoutClick(){
+        if(!form.branchId){
+             Swal.fire({
+                icon: "error",
+                title: "Checkout gagal",
+                text: "Silahkan masukan cabang terdekat",
+                confirmButtonColor :"#FFCB56"
+            });
+
+            return;
+        }
+
+        if(!form.deliveryAddress){
+             Swal.fire({
+                icon: "error",
+                title: "Checkout gagal",
+                text: "Silahkan masukan alamat pengantaran",
+                confirmButtonColor :"#FFCB56"
+            });
+
+            return;
+        }
+
+        setCartConfirmation(true);
+    }
+
+
 
     async function hanldeCheckout(){
 
         try{
+
             const response = await api.post("/checkout/item",{
-                
+                branchId: form.branchId,
+                deliveryAddress: form.deliveryAddress    
             });
 
-            console.log(response.data);
+
+           window.location.href = response.data.whatsappUrl;
 
 
         } catch(error){
@@ -95,7 +141,7 @@ function CartItem({onClose}){
 
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md px-4">
             
-            <div className="relative w-full max-w-4xl overflow-hidden bg-white shadow-2xl md:min-h-[520px] rounded-xl">
+            <div className="relative flex h-[95vh] w-full max-w-4xl flex-col overflow-hidden rounded-xl bg-white shadow-2xl md:h-auto md:max-h-[90vh]">
 
                 <div className="flex shrink-0 items-center justify-between border-b border-[#2b1a12]/10 px-5 py-5 md:px-7">
                     <h2 className="text-2xl font-bold text-[#2b1a12]">
@@ -111,7 +157,7 @@ function CartItem({onClose}){
                     </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto px-5 md:px-7">
+                <div className="min-h-0 flex-1 overflow-y-auto px-4 md:px-6">
 
                     {cart.length === 0 ? (
                         
@@ -134,20 +180,18 @@ function CartItem({onClose}){
                 </div>
 
                 {cart.length > 0 && (
-                    <div className="shrink-0 border-t border-[#2b1a12] px-5 py-5 md:px-7">
+                    <div className="shrink-0 border-t border-[#2b1a12]/20 px-4 py-3 sm:px-5 sm:py-5">
 
-                            <div className="mb-5">
-                                 <span className="text-lg font-semibold ">
+                           
+                                 <span className="block mb-2 text-lg font-semibold">
                                     Pilih Cabang
                                  </span>
-                            </div>
-                            
-
 
                         <div className="mb-5 flex-col gap-3 sm:flex-row">    
                             <select 
                                 name="branchId"
-                                onChange={handleChange} 
+                                value={form.branchId}
+                                onChange={handleBranch} 
                                 className="w-full rounded-xl border border-[#f0543a] px-5 py-3 font-semibold text-[#f0543a] transition hover:bg-[#f0543a]/10"
                             >
                                 <option value="">
@@ -168,16 +212,17 @@ function CartItem({onClose}){
                         </div>
 
                         <div className="mb-5">
-                                 <span className="text-lg font-semibold ">
+                                 <span className="text-lg font-semibold block text-base">
                                     Alamat Pengantaran
                                  </span>
                             </div>
 
-                        <div className="mb-5 flex-col gap-3 sm:flex-row">
+                        <div className="mb-5 flex flex-col gap-3 sm:flex-row">
                             <input 
                                 type="text"
                                 name="deliveryAddress"
                                 value={form.deliveryAddress}
+                                onChange={handleChange}
                                 placeholder="Masukan Alamat Pengantaran"
                                 required
                                 className="w-full rounded-xl border border-[#f0543a] px-5 py-3 font-semibold text-[#f0543a] transition hover:bg-[#f0543a]/10" 
@@ -208,7 +253,8 @@ function CartItem({onClose}){
 
                             <button 
                                 type="button"
-                                onClick={() => hanldeCheckout()}
+                               
+                                onClick={handleCheckoutClick}
                                 className="w-full rounded-xl bg-[#f0543a] px-5 py-3 font-semibold text-white transition hover:bg-[#d9442f] cursor-pointer"
                             >
                                 Checkout
@@ -222,6 +268,15 @@ function CartItem({onClose}){
 
 
             </div>
+
+            {cartConfirmation && (
+                <CartConfirmation
+                    onSubmit={hanldeCheckout}
+                    onClose={() => {
+                        setCartConfirmation(false);
+                    }}
+                />
+            )}
 
 
         </div>
