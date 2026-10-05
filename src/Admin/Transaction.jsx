@@ -1,12 +1,15 @@
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import api from "../api/api";
+import DetailTransaction from "./DetailTransaksi";
 
 function Transaction(){
 
     const [searchTransaction, setSearchTransactions] =  useState("");
     const [transaction, setTransaction] = useState([]); 
     const [currentpage, setCurrentPage] = useState(1);
+    const [isDetailOpen, setIsDetailOpen] = useState(false);
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
 
      const getTransaction =
         searchTransaction === "" ? transaction : transaction.filter((tr) => tr.transactionId === Number(searchTransaction));
@@ -160,20 +163,53 @@ function Transaction(){
                                         {tr.totalAmount.toLocaleString("id-ID")}
                                     </td>
 
-                                    <td className="px-3 py-2 font-medium">
+                                    <td className="px-3 py-2">
+                                        
+                                        <span
+                                            className={
+                                                tr.paymentStatus === "UNPAID"
+                                                ? "rounded-full bg-red-50 px-3 py-1 text-xs font-medium text-red-600"
+                                                : tr.paymentStatus === "PAID"
+                                                ? "rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-600"
+                                                : "rounded-full bg-yellow-50 px-3 py-1 text-xs font-medium text-yellow-600"
+                                            }
+                                        >
                                         {tr.paymentStatus}
+                                        </span>
+                                       
+                                        
                                     </td>
 
-                                     <td className="px-3 py-2 font-medium">
-                                        {tr.orderStatus}
+                                     <td className="px-3 py-2">
+
+                                        <span className={
+                                            tr.orderStatus === "WAITING"
+                                            ? "rounded-full bg-yellow-50 px-3 py-1 text-xs font-medium text-yellow-600"
+                                            : tr.orderStatus === "CONFIRMED"
+                                            ? "rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-600"
+                                            : tr.orderStatus === "DELIVERING"
+                                            ? "rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600"
+                                            : tr.orderStatus === "COMPLETED"
+                                            ? "rounded-full bg-green-200 px-3 py-1 text-xs font-medium text-green-600"
+                                            : "rounded-full bg-red-50 px-3 py-1 text-xs font-medium text-red-600"
+                                        }
+                                        
+                                        >
+                                         {tr.orderStatus}
+                                        </span>
+                                       
                                     </td>
 
                                      <td className="px-3 py-2 font-medium">
                                         <button
                                             type="button"
-                                            className="rounded-md border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 transition hover:bg-gray-100"
+                                            onClick={() => {
+                                                setIsDetailOpen(true)
+                                                setSelectedTransaction(tr)
+                                            }}
+                                            className="rounded-md border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 transition hover:bg-gray-100 cursor-pointer"
                                         >
-                                            ...
+                                            Detail
                                         </button>
                                     </td>
                                 </tr>
@@ -181,8 +217,7 @@ function Transaction(){
                         }
                     </tbody>
 
-                   
-
+                
                 </table>
                  <div className="mt-4 flex items-center justify-end gap-2">
                         <button
@@ -200,13 +235,20 @@ function Transaction(){
                         <button
                             disabled={currentpage === totalPages}
                             onClick={() => setCurrentPage(currentpage + 1)}
-                            className="rounded-md border px-3 py-1.5 text-sm disabled:opacity-50 "
+                            className="rounded-md border px-3 py-1.5 text-sm disabled:opacity-50 cursor-pointer"
                         >
                             Berikutnya 
                         </button>
                     </div>
 
             </div>
+
+            {isDetailOpen && selectedTransaction && (
+                <DetailTransaction
+                    onClose={() => setIsDetailOpen(false)}
+                    transaction={selectedTransaction}
+                />
+            )}
 
 
         </div>

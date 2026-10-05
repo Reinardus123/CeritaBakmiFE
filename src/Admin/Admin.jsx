@@ -4,12 +4,9 @@ import Transaction from "./Transaction";
 
 function Admin(){
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen bg-[#f8f1e7]">
             
-            <header className="h-16 bg-white border-b">
-                ....
-            </header>
-
+           
 
             <div className="flex">
 
@@ -25,7 +22,11 @@ function Admin(){
 
                 <Transaction/>
 
-                <MenuList/>
+                <div className="mt-5">
+                    <MenuList/>
+                </div>
+
+                
                 
             </main>
 

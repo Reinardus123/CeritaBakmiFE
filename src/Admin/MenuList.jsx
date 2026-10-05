@@ -12,6 +12,7 @@ function MenuList(){
     const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isCatOpen, setIsCatOpen] = useState(false);
     const [selectedMenu, setSelectedMenu] = useState(null);
+    const [currentpage, setCurrentPage] = useState(1);
 
 
     async function getMenu(){
@@ -60,7 +61,21 @@ function MenuList(){
 
     const searchMenu = menus.filter((menu) => menu.MenuTitle.toLowerCase().includes(search.toLowerCase()));
 
+    const menuPerPage = 10;
+    const indexOfLastMenu = currentpage * menuPerPage;
+    const indexOfFirstmenu  = indexOfLastMenu - menuPerPage;
 
+    const currentMenu = searchMenu.slice(
+        indexOfFirstmenu,
+        indexOfLastMenu
+    );
+
+    const totalPages = Math.ceil(searchMenu.length / menuPerPage);
+
+    useEffect(() => {
+        setCurrentPage(1);
+
+    },[searchMenu]);
 
     return (
        <div className="rounded-xl bg-white p-4 shadow-sm">
@@ -220,6 +235,28 @@ function MenuList(){
                     </tbody>
 
                 </table>
+
+                 <div className="mt-4 flex items-center justify-end gap-2">
+                        <button
+                            disabled={currentpage === 1}
+                            onClick={() => setCurrentPage(currentpage -1)}
+                            className="rounded-md border px-3 py-1.5 text-sm disabled:opacity-50 cursor-pointer"
+                        >
+                            Sebelumnya 
+                        </button>
+
+                        <span className="text-sm">
+                            {currentpage} / {totalPages}
+                        </span>
+
+                        <button
+                            disabled={currentpage === totalPages}
+                            onClick={() => setCurrentPage(currentpage + 1)}
+                            className="rounded-md border px-3 py-1.5 text-sm disabled:opacity-50 cursor-pointer"
+                        >
+                            Berikutnya 
+                        </button>
+                    </div>
 
             </div>
 
