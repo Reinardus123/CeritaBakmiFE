@@ -5,8 +5,24 @@ import api from "../api/api";
 function Transaction(){
 
     const [searchTransaction, setSearchTransactions] =  useState("");
-    const [transaction, setTransaction] = useState([]);
+    const [transaction, setTransaction] = useState([]); 
+    const [currentpage, setCurrentPage] = useState(1);
 
+     const getTransaction =
+        searchTransaction === "" ? transaction : transaction.filter((tr) => tr.transactionId === Number(searchTransaction));
+        
+    const transactionPerPage = 10;
+
+    const indexOfLastTransaction = currentpage * transactionPerPage; 
+
+    const indexOfFirstTransaction = indexOfLastTransaction - transactionPerPage;
+
+    const currentTransactions = getTransaction.slice(
+        indexOfFirstTransaction,
+        indexOfLastTransaction
+    );
+
+    const totalPages = Math.ceil(getTransaction.length / transactionPerPage);
 
     async function getAllTransaction(){
         
@@ -21,12 +37,14 @@ function Transaction(){
         }
     }
 
-    const getTransaction =
-        searchTransaction === "" ? transaction : transaction.filter((tr) => tr.transactionId === Number(searchTransaction));
-
     useEffect(() => {
         getAllTransaction();
     },[]);
+   
+
+    useEffect(() => {
+        setCurrentPage(1);
+    },[searchTransaction]);
 
     return (
         <div className="rounded-xl bg-white p-4 shadow-sm">
@@ -43,16 +61,16 @@ function Transaction(){
 
                         <Search
                             size={15}
-                            className="asbolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
                         />
 
                         <input 
-                            type="number" 
+                            type="text" 
                             placeholder="Cari transaksi"
                             value={searchTransaction}
                             onChange={(e) => setSearchTransactions(e.target.value === "" ? "" 
                                 :  Number(e.target.value))}
-                            className="w-36 rounded-md border border-gray-200 py-2 pl-0 pr-3 text-sm outline-none focus:border-red-600"  
+                            className="w-36 rounded-md border border-gray-200 py-2 pl-9 pr-3 text-sm outline-none focus:border-red-600"  
                         />
                     </div>
 
@@ -105,7 +123,7 @@ function Transaction(){
 
                     <tbody>
                         {
-                            getTransaction.map((tr) => (
+                            currentTransactions.map((tr) => (
                                 <tr
                                     key={tr.transactionId}
                                     className="border-b las:border-b-0 hover:bg-gray-50"
@@ -131,7 +149,7 @@ function Transaction(){
                                             {
                                                 tr.details.length > 1 && (
                                                     <div className="text-xs text-gray-500">
-                                                        + {tr.details.length + 1} pesanan lainnya
+                                                        + {tr.details.length - 1} pesanan lainnya
                                                     </div>
 
                                                 )
@@ -163,7 +181,30 @@ function Transaction(){
                         }
                     </tbody>
 
+                   
+
                 </table>
+                 <div className="mt-4 flex items-center justify-end gap-2">
+                        <button
+                            disabled={currentpage === 1}
+                            onClick={() => setCurrentPage(currentpage -1)}
+                            className="rounded-md border px-3 py-1.5 text-sm disabled:opacity-50 cursor-pointer"
+                        >
+                            Sebelumnya 
+                        </button>
+
+                        <span className="text-sm">
+                            {currentpage} / {totalPages}
+                        </span>
+
+                        <button
+                            disabled={currentpage === totalPages}
+                            onClick={() => setCurrentPage(currentpage + 1)}
+                            className="rounded-md border px-3 py-1.5 text-sm disabled:opacity-50 "
+                        >
+                            Berikutnya 
+                        </button>
+                    </div>
 
             </div>
 
