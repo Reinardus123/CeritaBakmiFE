@@ -1,6 +1,7 @@
 import { X } from "lucide-react";
 import api from "../api/api";
 import { useState } from "react";
+import apiAdmin from "../api/apiAdmin";
 
 function CreateCategory({onClose}){
     
@@ -15,7 +16,7 @@ function CreateCategory({onClose}){
 
         try{
         
-            const response = await api.post("/category/createCat",{
+            const response = await apiAdmin.post("/category/createCat",{
                 categoryName: form.categoryName
             });
 

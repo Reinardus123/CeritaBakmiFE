@@ -1,6 +1,7 @@
 import {useEffect, useState } from "react";
 import { UploadCloud, X } from "lucide-react";
 import api from "../api/api";
+import apiAdmin from "../api/apiAdmin";
 
 
 function CreateMenu({onClose, menu}){
@@ -52,7 +53,7 @@ function CreateMenu({onClose, menu}){
 
     async function getCategories(){
         
-        const response = await api.get("/category/getCat");
+        const response = await apiAdmin.get("/category/getCat");
 
         setCategories(response.data);
 
@@ -85,7 +86,7 @@ function CreateMenu({onClose, menu}){
             }
 
 
-            const response = await api.post("/menu/createMenu",formData);
+            const response = await apiAdmin.post("/menu/createMenu",formData);
             
             console.log(response.data);
 
@@ -107,7 +108,7 @@ function CreateMenu({onClose, menu}){
             if(image){
                 formData.append("image",image);
             }
-            const response = await api.put(`/menu/update/${menu.menuId}`,formData);
+            const response = await apiAdmin.put(`/menu/update/${menu.menuId}`,formData);
             console.log(response.data);
             onClose();
             } catch(error){

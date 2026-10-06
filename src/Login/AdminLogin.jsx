@@ -1,37 +1,35 @@
 import { useState } from 'react';
 import BakmiCeritaBakmi from '../assets/images/BakmiCeritaBakmi.JPEG';
 import { User, EyeClosed, Eye } from 'lucide-react';
-import api from '../api/api';
+import apiAdmin from '../api/apiAdmin';
 import Swal from 'sweetalert2';
 import { useAuth } from '../Navbar/Context';
 
 
-function login({isOpen, onClose}){
+function AdminLogin({isOpen, onClose}){
 
-    const [name, setName] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const {loginCustomer} = useAuth();
-    
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [visible, setIsvisible] = useState("");
+
+     const {loginAdmin} = useAuth();
 
     if(!isOpen){
         return null;
     }
 
-
     async function handleLogin(e){
         e.preventDefault();
 
         try{
-            const response = await api.post(
-                "/auth/guestUser",{
-                    name,
-                    phoneNumber
+            const response = await apiAdmin.post(
+                "/auth/login",{
+                    username,
+                    password
                 }
             );
-            onClose();
 
-            loginCustomer(response.data.token);
-         
+            loginAdmin(response.data.token);
             Swal.fire({
                 icon: "success",
                 title: "Login berhasil",
@@ -124,15 +122,15 @@ function login({isOpen, onClose}){
                                             htmlFor="username"
                                             className="mb-2 block text-sm font-medium text-gray-700"
                                         >
-                                            Nama
+                                            Username
                                         </label>
 
                                         <div className="flex items-center border rounded-xl px-4 py-3">
                                             <input 
-                                                type="text"
-                                                placeholder="Masukan nama anda"
+                                                type="username"
+                                                placeholder="Masukan username anda"
                                                 className="w-full outline-none" 
-                                                onChange={(e) => setName(e.target.value)}
+                                                onChange={(e) => setUsername(e.target.value)}
                                             />
 
                                             <User size={18} className="text-gray-400"/>
@@ -140,21 +138,44 @@ function login({isOpen, onClose}){
 
                                        <label 
                                             htmlFor="password"
-                                            className="mb-2 block text-sm font-medium text-gray-700 mt-5"
+                                            className="mb-2 block text-sm font-medium text-gray-700"
                                         >
-                                            Nomor Telepon
+                                            Password
                                         </label>
 
                                         <div className="flex items-center border rounded-xl px-4 py-3">
+                                            {!visible ? (
+                                                <>
+                                                <input 
+                                                    type="password"
+                                                    placeholder="Silahkan masukan password"
+                                                    className="w-full outline-none"
+                                                    onChange={(e) => setPassword(e.target.value)} 
+                                                />
+                                                <EyeClosed size={18} className="text-gray-400 cursor-pointer" onClick={() => setIsvisible(true)}/>
+                                                </>
+                                            ) : (
+                                                <>
                                                 <input 
                                                     type="text"
-                                                    placeholder="Silahkan masukan nomor telepon"
+                                                    placeholder="Silahkan masukan password"
                                                     className="w-full outline-none"
-                                                    onChange={(e) => setPhoneNumber(e.target.value)} 
+                                                    onChange={(e) => setPassword(e.target.value)} 
                                                 />
+                                                <Eye size={18} className="text-gray-400 cursor-pointer" onClick={() => setIsvisible(false)}/>
+                                                </>
+                                            )}
                                         </div>
 
-                
+                                        <div className="flex items-center justify-between text-sm">
+                                            
+                                            <button
+                                                type="button"
+                                                className="font-medium text-red-600 hover:underline"
+                                            >   
+                                                Lupa password ? 
+                                            </button>
+                                        </div>
                                     </div>
 
                                      <button
@@ -165,7 +186,20 @@ function login({isOpen, onClose}){
                                         </button>
                                 </form>
 
-                             
+                                <div className="mt-7 text-center text-sm text-gray-500">
+                                    
+                                    <span>
+                                        Belum punya akun? {""}
+                                    </span>
+
+                                    <button
+                                        type="button"
+                                        className="font-semibold text-red-600 hover:underline"
+                                    >
+                                        Daftar sekarang
+                                    </button>
+
+                                </div>
                         </div>
 
                     </div>
@@ -178,4 +212,4 @@ function login({isOpen, onClose}){
 }
 
 
-export default login;
+export default AdminLogin;
