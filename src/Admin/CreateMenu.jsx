@@ -77,7 +77,7 @@ function CreateMenu({onClose, menu}){
 
             const formData = new FormData();
             formData.append("MenuTitle", form.MenuTitle);
-            formData.append("price", form.price);
+             formData.append("price", Number(form.price.replace(/\./g, "")));
             formData.append("description", form.description);
             formData.append("categoryId", form.categoryId);
         
@@ -101,7 +101,7 @@ function CreateMenu({onClose, menu}){
             try{
                 const formData = new FormData();
                 formData.append("MenuTitle",form.MenuTitle);
-                formData.append("price", form.price.replace(/\./g, ""));
+                formData.append("price", Number(form.price.replace(/\./g, "")));
                 formData.append("description",form.description);
                 formData.append("categoryId",form.categoryId);
 
