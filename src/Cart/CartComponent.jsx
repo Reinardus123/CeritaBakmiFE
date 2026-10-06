@@ -11,7 +11,7 @@ function CartComponent({item, onDelete, updateQuantity}){
 
                 <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-gray-100">
                     <img 
-                        src={`http://localhost:8080${item.imageUrl}`} 
+                        src={item.imageUrl} 
                         alt={item.menuTitle}
                         className="h-full w-full object-cover" 
                     />
