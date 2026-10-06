@@ -1,6 +1,7 @@
 import { X } from "lucide-react"
 import api from "../api/api";
 import { useState } from "react";
+import apiAdmin from "../api/apiAdmin";
 
 function DetailTransaction({transaction, onClose}){
 
@@ -11,7 +12,7 @@ function DetailTransaction({transaction, onClose}){
   async function handleUpdatePaymentStatus(){
       try{
 
-        await api.put(`/updateStatus/${transaction.transactionId}/updatePaymentStatus`,{
+        await apiAdmin.put(`/updateStatus/${transaction.transactionId}/updatePaymentStatus`,{
             paymentStatus : paymentStatus
         });
 
@@ -23,7 +24,7 @@ function DetailTransaction({transaction, onClose}){
 
   async function handleUpdateOrderStatus(){
     try{
-        await api.put(`/updateStatus/${transaction.transactionId}/updateOrderStatus`,{
+        await apiAdmin.put(`/updateStatus/${transaction.transactionId}/updateOrderStatus`,{
             orderStatus: orderStatus
         });
     } catch(error){

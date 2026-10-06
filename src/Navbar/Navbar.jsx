@@ -12,7 +12,7 @@ function Navbar(){
 
     const [isOpen, setIsOpen] = useState(false);
     const [isLoginOpen, setIsLoginOpen] = useState(false);
-    const {isLoggedIn, logout} = useAuth();
+    const {logoutCustomer, customerToken} = useAuth();
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
     const menuItems =[
@@ -70,7 +70,7 @@ const handleMenuClick = () => {
      
 
         <div className="flex items-center gap-3">
-            {isLoggedIn ? (
+            {customerToken ? (
 
                 <div className="relative" ref={menuRef}>
                      <button
@@ -100,7 +100,7 @@ const handleMenuClick = () => {
                             
                             <button
                                 type="button"
-                                onClick={logout}
+                                onClick={logoutCustomer}
                                 className="w-full rounded-lg px-4 py-3 text-left text-red-600 hover:bg-red-50"
                             >
                                 Logout

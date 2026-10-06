@@ -5,26 +5,39 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({children}) => {
 
-    const[isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
+    const [customerToken, setCustomerToken] = useState(localStorage.getItem("customerToken"));
+     const [adminToken, setAdminToken] = useState(localStorage.getItem("adminToken"));
 
-    const login = (token) => {
-        localStorage.setItem("token", token);
-        setIsLoggedIn(true);
+    const loginCustomer = (token) => {
+        localStorage.setItem("customerToken", token);
+        setCustomerToken(token);
     };
 
-    const logout = () => {
-        localStorage.removeItem("token");
-        setIsLoggedIn(false);
+    const logoutCustomer = () => {
+        localStorage.removeItem("customerToken");
+        setCustomerToken(null);
     };
 
+     const loginAdmin = (token) => {
+        localStorage.setItem("adminToken", token);
+        setAdminToken(token);
+    };
+
+     const logoutAdmin = () => {
+        localStorage.removeItem("adminToken");
+        setAdminToken(null);
+    };
 
     return (
         <AuthContext.Provider
 
             value={{
-                isLoggedIn,
-                login,
-                logout
+              adminToken,
+              customerToken,
+              loginCustomer,
+              logoutCustomer,
+              loginAdmin,
+              logoutAdmin
             }}
 
         >

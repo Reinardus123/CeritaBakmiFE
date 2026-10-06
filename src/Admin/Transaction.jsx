@@ -2,6 +2,7 @@ import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import api from "../api/api";
 import DetailTransaction from "./DetailTransaksi";
+import apiAdmin from "../api/apiAdmin";
 
 function Transaction(){
 
@@ -31,7 +32,7 @@ function Transaction(){
         
         try{
 
-            const response = await api.get("/checkout/getAll");
+            const response = await apiAdmin.get("/checkout/getAll");
             setTransaction(response.data);
 
 

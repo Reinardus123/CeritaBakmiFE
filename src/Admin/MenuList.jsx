@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import api from "../api/api";
 import CreateMenu from "./CreateMenu";
 import CreateCategory from "./CreateCategory";
+import apiAdmin from "../api/apiAdmin";
 
 
 function MenuList(){
@@ -18,7 +19,7 @@ function MenuList(){
     async function getMenu(){
         try{
 
-            const response = await api.get("/menu/getMenu");
+            const response = await apiAdmin.get("/menu/getMenu");
 
             const sortedMenu = response.data.sort(
                 (a,b) => a.menuId - b.menuId
@@ -41,7 +42,7 @@ function MenuList(){
     async function handleToogle(menuId){
         try{
 
-           const response =  await api.put(`menu/${menuId}/updateStatus`);
+           const response =  await apiAdmin.put(`menu/${menuId}/updateStatus`);
             console.log(response.data);
             getMenu();
 
