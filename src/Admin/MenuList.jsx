@@ -175,7 +175,7 @@ function MenuList(){
 
                                 <td className="px-3 py-2">
                                     <img 
-                                        src={`http://localhost:8080${menu.ImageUrl}`}
+                                        src={menu.ImageUrl}
                                         alt={menu.menuTitle}
                                         className="h-8 w-8 rounded-md object-cover" 
                                     />

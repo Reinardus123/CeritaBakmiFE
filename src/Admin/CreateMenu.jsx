@@ -142,7 +142,7 @@ function CreateMenu({onClose, menu}){
                 categoryId: menu.categoryId
             });
 
-            setPreview(`http://localhost:8080${menu.ImageUrl}`);
+            setPreview(menu.ImageUrl);
         }
    }, [menu]);
 
