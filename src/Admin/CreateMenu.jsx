@@ -21,7 +21,8 @@ function CreateMenu({onClose, menu}){
     function handleImageChange(e){
         const file = e.target.files[0];
 
-        if(!file){
+        if(file && file.size > 10 * 1024 * 1024){
+            alert("ukuran gambar maksimal 10mb");
             return;
         }
 
