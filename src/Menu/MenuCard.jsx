@@ -8,7 +8,7 @@ function MenuCard({menu, onAddCart}){
         <div className="w-[270px] rounded-xl h-full overflow-hidden bg-[#f8f1e7] shadow-md hover:scale-105 transition duration-200 cursor-pointer">
 
             <img 
-                src={`http://localhost:8080${menu.ImageUrl}`} 
+                src={menu.ImageUrl} 
                 alt={menu.MenuTitle}
                 className="object-cover h-[190px] w-full" 
             />
