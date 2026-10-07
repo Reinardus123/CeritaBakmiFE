@@ -2,6 +2,7 @@ import {useEffect, useState } from "react";
 import { UploadCloud, X } from "lucide-react";
 import api from "../api/api";
 import apiAdmin from "../api/apiAdmin";
+import axios from "axios";
 
 
 function CreateMenu({onClose, menu}){
@@ -45,6 +46,29 @@ function CreateMenu({onClose, menu}){
         });
     }
 
+    async function uploadImage(){
+
+        if(!image) return null;
+
+        const response = await apiAdmin.post(
+            `menu/upload-url?fileName=${encodeURIComponent(image.name)}`
+        );
+
+        const {path, token} = response.data;
+
+        const uploadUrl = `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/upload/sign/menu-images/` + 
+        `${path}?token=${token}`;
+
+        await axios.put(uploadUrl, image, {
+            headers : {
+                "Content-Type": image.type,
+                "Authorization": `Bearer ${token}`
+            },
+        });
+
+        return `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/menu-images/${path}`;
+    }
+
     function removeImage(){
         setImage(null);
         setPreview(null);
@@ -76,18 +100,18 @@ function CreateMenu({onClose, menu}){
             try{
             setLoading(true);
 
-            const formData = new FormData();
-            formData.append("MenuTitle", form.MenuTitle);
-             formData.append("price", Number(form.price.replace(/\./g, "")));
-            formData.append("description", form.description);
-            formData.append("categoryId", form.categoryId);
-        
+            let imageUrl = null;
+
             if(image){
-                formData.append("image",image);
+                imageUrl = await uploadImage();
             }
-
-
-            const response = await apiAdmin.post("/menu/createMenu",formData);
+            const response = await apiAdmin.post("/menu/createMenu",{
+                menuTitle : form.MenuTitle,
+                price: Number(form.price.replace(/\./g, "")),
+                description: form.description,
+                categoryId: Number(form.categoryId),
+                imageUrl: imageUrl
+            });
             
             console.log(response.data);
 
@@ -100,21 +124,26 @@ function CreateMenu({onClose, menu}){
         } else{
 
             try{
-                const formData = new FormData();
-                formData.append("MenuTitle",form.MenuTitle);
-                formData.append("price", Number(form.price.replace(/\./g, "")));
-                formData.append("description",form.description);
-                formData.append("categoryId",form.categoryId);
+                
+            let imageUrl = menu.imageUrl;
 
             if(image){
-                formData.append("image",image);
+                imageUrl = await uploadImage();
             }
-            const response = await apiAdmin.put(`/menu/update/${menu.menuId}`,formData);
+            const response = await apiAdmin.put(`/menu/update/${menu.menuId}`,{
+                menuTitle : form.MenuTitle,
+                price: Number(form.price.replace(/\./g, "")),
+                description: form.description,
+                categoryId: Number(form.categoryId),
+                imageUrl: imageUrl
+            });
             console.log(response.data);
             onClose();
             } catch(error){
                 console.log(error);
-            }         
+            }  finally{
+                setLoading(false);
+            }       
         }
 
        
@@ -137,7 +166,7 @@ function CreateMenu({onClose, menu}){
    useEffect(() => {
         if(menu){
             setForm({
-                MenuTitle: menu.MenuTitle,
+                menuTitle: menu.MenuTitle,
                 price: menu.price.toLocaleString("id-ID"),
                 description: menu.description,
                 categoryId: menu.categoryId

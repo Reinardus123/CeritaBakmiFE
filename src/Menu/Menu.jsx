@@ -51,8 +51,11 @@ function Menu(){
         try{
 
             const response = await api.get("/category/getCat");
+        console.log("API URL:", import.meta.env.VITE_API_URL);
+            console.log("CATEGORY RESPONSE:", response.data);
+            console.log("IS ARRAY:", Array.isArray(response.data));
             setCategories(response.data);
-            console.log(response.data);
+           
 
         } catch(error){
             console.log(error);
@@ -97,6 +100,7 @@ function Menu(){
                    
                         {categories.map((category) => (
                             <button 
+                                type="button"
                                 key={category.categoryId}
                                 className="rounded-full bg-[#EC5B38] px-5 py-2 text-white cursor-pointer hover:scale-105 transition duration-200 shrink-0"
                                 onClick={() => setSelectedCategories(category.categoryId)}
