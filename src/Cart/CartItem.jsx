@@ -122,7 +122,7 @@ function CartItem({onClose}){
             });
 
             const updatedItem = response.data;
-            console.log(response.data);
+         
 
             setCart((prevCart) => prevCart.map((item) => item.cartItemId === updatedItem.cartItemId ? updatedItem : item));
 

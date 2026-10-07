@@ -185,21 +185,6 @@ function AdminLogin({isOpen, onClose}){
                                             Masuk
                                         </button>
                                 </form>
-
-                                <div className="mt-7 text-center text-sm text-gray-500">
-                                    
-                                    <span>
-                                        Belum punya akun? {""}
-                                    </span>
-
-                                    <button
-                                        type="button"
-                                        className="font-semibold text-red-600 hover:underline"
-                                    >
-                                        Daftar sekarang
-                                    </button>
-
-                                </div>
                         </div>
 
                     </div>
