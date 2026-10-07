@@ -51,9 +51,7 @@ function Menu(){
         try{
 
             const response = await api.get("/category/getCat");
-        console.log("API URL:", import.meta.env.VITE_API_URL);
-            console.log("CATEGORY RESPONSE:", response.data);
-            console.log("IS ARRAY:", Array.isArray(response.data));
+       
             setCategories(response.data);
            
 

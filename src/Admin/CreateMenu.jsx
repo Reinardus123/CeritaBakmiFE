@@ -82,7 +82,7 @@ function CreateMenu({onClose, menu}){
 
         setCategories(response.data);
 
-        console.log(response.data);
+        
     }
 
     useEffect(() => {
@@ -113,7 +113,7 @@ function CreateMenu({onClose, menu}){
                 imageUrl: imageUrl
             });
             
-            console.log(response.data);
+          
 
             onClose();
             
@@ -137,7 +137,7 @@ function CreateMenu({onClose, menu}){
                 categoryId: Number(form.categoryId),
                 imageUrl: imageUrl
             });
-            console.log(response.data);
+            
             onClose();
             } catch(error){
                 console.log(error);

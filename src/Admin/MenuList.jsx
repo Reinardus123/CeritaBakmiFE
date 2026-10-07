@@ -27,7 +27,7 @@ function MenuList(){
 
             setMenus(sortedMenu);
 
-            console.log(response.data);
+         
 
         } catch(error){
             console.log(error);
@@ -43,7 +43,7 @@ function MenuList(){
         try{
 
            const response =  await apiAdmin.put(`menu/${menuId}/updateStatus`);
-            console.log(response.data);
+           
             getMenu();
 
         } catch(error){

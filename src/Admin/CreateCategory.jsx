@@ -20,7 +20,7 @@ function CreateCategory({onClose}){
                 categoryName: form.categoryName
             });
 
-            console.log(response.data);
+          
 
             onClose();
 
